@@ -7,4 +7,6 @@ public class Constants {
     public static final String PATH = "src/";
     public static final String FILE_NAME = "results";
     public static final String EXT_XSM = ".xml";
+    public static final String DATE_PATTERN = "dd.MM.yyyy";
+
 }

@@ -8,29 +8,23 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import static by.gsu.epamlab.Constants.TEN;
 
 public class ResultHandler extends DefaultHandler {
-    private final String path;
+
+    private List<Result> results = new ArrayList<Result>();
+
     private String value;
-    private Student student;
-    private Test test;
-    private List<Student> students;
-    private List<Test> tests;
+    private String student;
+    private String test;
 
-    public ResultHandler(String path) {
-        this.path = path;
-        students = new ArrayList<>();
-    }
 
-    private static enum Tags {
-        STUDENT, TESTS, TEST, LOGIN, RESULTS
+    private static enum CurrentEnum {
+        RESULTS, STUDENT, LOGIN, TESTS, TEST;
     }
 
     private static enum TestAttributes {
@@ -39,37 +33,18 @@ public class ResultHandler extends DefaultHandler {
 
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
-        Tags tag = Tags.valueOf(qName.toUpperCase());
-        switch (tag) {
-            case STUDENT:
-                student = new Student();
-                break;
-            case TESTS:
-                tests = new ArrayList<>();
-                break;
-            case TEST :
-                test = new Test(
-                        attributes.getValue(TestAttributes.NAME.name().toLowerCase()),
-                        attributes.getValue(TestAttributes.DATE.name().toLowerCase()),
-                        (int) (TEN * Double.parseDouble(attributes.getValue(TestAttributes.MARK.name().toLowerCase()))));
-                tests.add(test);
+        if (CurrentEnum.valueOf(qName.toUpperCase()) == CurrentEnum.TEST) {
+            String testName = attributes.getValue(TestAttributes.NAME.name().toLowerCase());
+            String date = attributes.getValue(TestAttributes.DATE.name().toLowerCase());
+            int mark = (int) (TEN * Double.parseDouble(attributes.getValue(TestAttributes.MARK.name().toLowerCase())));
+            results.add(new Result(testName, date, mark));
         }
     }
 
     @Override
     public void endElement(String uri, String localName, String qName) throws SAXException {
-        Tags tag = Tags.valueOf(qName.toUpperCase());
-
-        switch (tag){
-            case STUDENT:
-                students.add(student);
-                break;
-            case LOGIN:
-                student.setLogin(value);
-                break;
-            case TESTS:
-                student.setTests(tests);
-                break;
+        if (CurrentEnum.valueOf(qName.toUpperCase()) == CurrentEnum.LOGIN) {
+            student = value;
         }
     }
 
@@ -78,15 +53,15 @@ public class ResultHandler extends DefaultHandler {
         value = new String(ch, start, length);
     }
 
-    public List<Student> read() {
+    public List<Result> load(String fileName) {
         SAXParserFactory factory = SAXParserFactory.newInstance();
-        try{
+        try {
             SAXParser parser = factory.newSAXParser();
-            FileInputStream file = new FileInputStream(path);
+            FileInputStream file = new FileInputStream(fileName);
             parser.parse(file, this);
         } catch (ParserConfigurationException | SAXException | IOException e) {
             throw new IllegalStateException(e);
         }
-        return students;
+        return results;
     }
 }

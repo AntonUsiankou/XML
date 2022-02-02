@@ -1,32 +1,33 @@
-<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-    <xs:element name="results">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element name="student" maxOccurs="unbounded" minOccurs="0">
-                    <xs:complexType>
-                        <xs:sequence>
-                            <xs:element type="xs:string" name="login"/>
-                            <xs:element name="tests">
-                                <xs:complexType>
-                                    <xs:sequence>
-                                        <xs:element name="test" maxOccurs="unbounded" minOccurs="0">
-                                            <xs:complexType>
-                                                <xs:simpleContent>
-                                                    <xs:extension base="xs:string">
-                                                        <xs:attribute type="xs:string" name="name" use="optional"/>
-                                                        <xs:attribute type="xs:date" name="date" use="optional"/>
-                                                        <xs:attribute type="xs:float" name="mark" use="optional"/>
-                                                    </xs:extension>
-                                                </xs:simpleContent>
-                                            </xs:complexType>
-                                        </xs:element>
-                                    </xs:sequence>
-                                </xs:complexType>
-                            </xs:element>
-                        </xs:sequence>
-                    </xs:complexType>
-                </xs:element>
-            </xs:sequence>
-        </xs:complexType>
-    </xs:element>
-</xs:schema>
+<xsd:schema attributeFormDefault="unqualified" elementFormDefault="qualified"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <xsd:element name="results">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="student" maxOccurs="unbounded" minOccurs="0">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element type="xsd:string" name="login"/>
+                            <xsd:element name="tests">
+                                <xsd:complexType>
+                                    <xsd:sequence>
+                                        <xsd:element name="test" maxOccurs="unbounded" minOccurs="0">
+                                            <xsd:complexType>
+                                                <xsd:simpleContent>
+                                                    <xsd:extension base="xsd:string">
+                                                        <xsd:attribute type="xsd:string" name="name" use="optional"/>
+                                                        <xsd:attribute type="xsd:date" name="date" use="optional"/>
+                                                        <xsd:attribute type="xsd:float" name="mark" use="optional"/>
+                                                    </xsd:extension>
+                                                </xsd:simpleContent>
+                                            </xsd:complexType>
+                                        </xsd:element>
+                                    </xsd:sequence>
+                                </xsd:complexType>
+                            </xsd:element>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+</xsd:schema>
