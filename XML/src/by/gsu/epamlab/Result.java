@@ -12,7 +12,8 @@ public class Result {
     private String testName;
     private String date;
     private int mark;
-
+    private SimpleDateFormat OUTPUT_DATE_FORMAT =
+            new SimpleDateFormat("dd.MM.yyyy", Locale.US);
     public Result(String student, String testName, String date, int mark) {
         this.student = student;
         this.testName = testName;
@@ -46,8 +47,6 @@ public class Result {
     }
 
     public String getStringDate() {
-        SimpleDateFormat OUTPUT_DATE_FORMAT =
-                new SimpleDateFormat("dd.MM.yyyy", Locale.US);
         return OUTPUT_DATE_FORMAT.format(new Date());
     }
 
