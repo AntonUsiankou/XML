@@ -8,14 +8,14 @@ import static by.gsu.epamlab.Constants.DOT;
 import static by.gsu.epamlab.Constants.TEN;
 
 public class Result {
-    private String student;
+    private String login;
     private String testName;
     private String date;
     private int mark;
     private SimpleDateFormat OUTPUT_DATE_FORMAT =
             new SimpleDateFormat("dd.MM.yyyy", Locale.US);
-    public Result(String student, String testName, String date, int mark) {
-        this.student = student;
+    public Result(String login, String testName, String date, int mark) {
+        this.login = login;
         this.testName = testName;
         this.mark = mark;
         this.date = date;
@@ -56,6 +56,6 @@ public class Result {
 
     @Override
     public String toString() {
-        return student + Constants.DELIMITER + testName + Constants.DELIMITER + getStringDate() + Constants.DELIMITER + getStringMark(mark);
+        return login + Constants.DELIMITER + testName + Constants.DELIMITER + getStringDate() + Constants.DELIMITER + getStringMark(mark);
     }
 }

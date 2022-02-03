@@ -19,7 +19,7 @@ public class ResultHandler extends DefaultHandler {
     private List<Result> results = new ArrayList<Result>();
 
     private String value;
-    private String student;
+    private String login;
     private String test;
 
     private static enum CurrentEnum {
@@ -37,7 +37,7 @@ public class ResultHandler extends DefaultHandler {
             String testName = attributes.getValue(TestAttributes.NAME.name().toLowerCase());
             String date = attributes.getValue(TestAttributes.DATE.name().toLowerCase());
             int mark = (int) (TEN * Double.parseDouble(attributes.getValue(TestAttributes.MARK.name().toLowerCase())));
-            results.add(new Result(student, testName, date, mark));
+            results.add(new Result(login, testName, date, mark));
         }
     }
 
@@ -46,7 +46,7 @@ public class ResultHandler extends DefaultHandler {
         if (currentEnum == CurrentEnum.LOGIN) {
             value = new String(ch, start, length).trim();
             if(!value.isEmpty()){
-                student = value;
+                login = value;
             }
         }
     }
