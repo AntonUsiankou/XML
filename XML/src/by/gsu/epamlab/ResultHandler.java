@@ -22,35 +22,33 @@ public class ResultHandler extends DefaultHandler {
     private String student;
     private String test;
 
-
     private static enum CurrentEnum {
         RESULTS, STUDENT, LOGIN, TESTS, TEST;
     }
-
+    private CurrentEnum currentEnum;
     private static enum TestAttributes {
         NAME, DATE, MARK
     }
 
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
-        if (CurrentEnum.valueOf(qName.toUpperCase()) == CurrentEnum.TEST) {
+        currentEnum = CurrentEnum.valueOf(qName.toUpperCase());
+        if (currentEnum == CurrentEnum.TEST) {
             String testName = attributes.getValue(TestAttributes.NAME.name().toLowerCase());
             String date = attributes.getValue(TestAttributes.DATE.name().toLowerCase());
             int mark = (int) (TEN * Double.parseDouble(attributes.getValue(TestAttributes.MARK.name().toLowerCase())));
-            results.add(new Result(testName, date, mark));
-        }
-    }
-
-    @Override
-    public void endElement(String uri, String localName, String qName) throws SAXException {
-        if (CurrentEnum.valueOf(qName.toUpperCase()) == CurrentEnum.LOGIN) {
-            student = value;
+            results.add(new Result(student, testName, date, mark));
         }
     }
 
     @Override
     public void characters(char[] ch, int start, int length) throws SAXException {
-        value = new String(ch, start, length);
+        if (currentEnum == CurrentEnum.LOGIN) {
+            value = new String(ch, start, length).trim();
+            if(!value.isEmpty()){
+                student = value;
+            }
+        }
     }
 
     public List<Result> load(String fileName) {

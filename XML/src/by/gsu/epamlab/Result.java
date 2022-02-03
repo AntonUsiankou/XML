@@ -8,12 +8,13 @@ import static by.gsu.epamlab.Constants.DOT;
 import static by.gsu.epamlab.Constants.TEN;
 
 public class Result {
-
+    private String student;
     private String testName;
     private String date;
     private int mark;
 
-    public Result(String testName, String date, int mark) {
+    public Result(String student, String testName, String date, int mark) {
+        this.student = student;
         this.testName = testName;
         this.mark = mark;
         this.date = date;
@@ -56,6 +57,6 @@ public class Result {
 
     @Override
     public String toString() {
-        return testName + Constants.DELIMITER + getStringDate() + Constants.DELIMITER + getStringMark(mark);
+        return student + Constants.DELIMITER + testName + Constants.DELIMITER + getStringDate() + Constants.DELIMITER + getStringMark(mark);
     }
 }
