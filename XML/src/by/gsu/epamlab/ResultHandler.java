@@ -9,6 +9,7 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +36,7 @@ public class ResultHandler extends DefaultHandler {
         currentEnum = CurrentEnum.valueOf(qName.toUpperCase());
         if (currentEnum == CurrentEnum.TEST) {
             String testName = attributes.getValue(TestAttributes.NAME.name().toLowerCase());
-            String date = attributes.getValue(TestAttributes.DATE.name().toLowerCase());
+            java.sql.Date date = (Date) Result.getStringToDate(attributes.getValue(TestAttributes.DATE.name().toLowerCase()));
             int mark = (int) (TEN * Double.parseDouble(attributes.getValue(TestAttributes.MARK.name().toLowerCase())));
             results.add(new Result(login, testName, date, mark));
         }
