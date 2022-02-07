@@ -17,7 +17,6 @@ public class Result {
         this.date = date;
     }
 
-
     public String getTestName() {
         return testName;
     }

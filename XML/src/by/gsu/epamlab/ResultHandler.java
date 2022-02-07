@@ -4,11 +4,6 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +14,6 @@ public class ResultHandler extends DefaultHandler {
 
     private List<Result> results = new ArrayList<Result>();
 
-    private String value;
     private String login;
 
     private enum CurrentEnum {
@@ -44,14 +38,15 @@ public class ResultHandler extends DefaultHandler {
     }
 
     @Override
-    public void characters(char[] ch, int start, int length) throws SAXException {
+    public void characters(char[] ch, int start, int length){
         if (currentEnum == CurrentEnum.LOGIN) {
-            value = new String(ch, start, length).trim();
+            String value = new String(ch, start, length).trim();
             if (!value.isEmpty()) {
                 login = value;
             }
         }
     }
+
     public void printList() {
         for (Result result : results) {
             System.out.println(result);
