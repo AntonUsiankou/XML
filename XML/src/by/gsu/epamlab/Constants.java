@@ -9,5 +9,4 @@ public class Constants {
     public static final String EXT_XSM = ".xml";
     public static final String DATE_PATTERN = "dd.MM.yyyy";
     public static final String DATE_LOCALE = "yyyy-MM-dd";
-
 }

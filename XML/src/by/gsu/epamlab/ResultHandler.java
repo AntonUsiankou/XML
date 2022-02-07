@@ -21,13 +21,14 @@ public class ResultHandler extends DefaultHandler {
 
     private String value;
     private String login;
-    private String test;
 
-    private static enum CurrentEnum {
+    private enum CurrentEnum {
         RESULTS, STUDENT, LOGIN, TESTS, TEST;
     }
+
     private CurrentEnum currentEnum;
-    private static enum TestAttributes {
+
+    private enum TestAttributes {
         NAME, DATE, MARK
     }
 
@@ -36,7 +37,7 @@ public class ResultHandler extends DefaultHandler {
         currentEnum = CurrentEnum.valueOf(qName.toUpperCase());
         if (currentEnum == CurrentEnum.TEST) {
             String testName = attributes.getValue(TestAttributes.NAME.name().toLowerCase());
-            java.sql.Date date = (Date) Result.getStringToDate(attributes.getValue(TestAttributes.DATE.name().toLowerCase()));
+            Date date = (Date) Utils.getStringToDate(attributes.getValue(TestAttributes.DATE.name().toLowerCase()));
             int mark = (int) (TEN * Double.parseDouble(attributes.getValue(TestAttributes.MARK.name().toLowerCase())));
             results.add(new Result(login, testName, date, mark));
         }
@@ -46,21 +47,14 @@ public class ResultHandler extends DefaultHandler {
     public void characters(char[] ch, int start, int length) throws SAXException {
         if (currentEnum == CurrentEnum.LOGIN) {
             value = new String(ch, start, length).trim();
-            if(!value.isEmpty()){
+            if (!value.isEmpty()) {
                 login = value;
             }
         }
     }
-
-    public List<Result> load(String fileName) {
-        SAXParserFactory factory = SAXParserFactory.newInstance();
-        try {
-            SAXParser parser = factory.newSAXParser();
-            FileInputStream file = new FileInputStream(fileName);
-            parser.parse(file, this);
-        } catch (ParserConfigurationException | SAXException | IOException e) {
-            throw new IllegalStateException(e);
+    public void printList() {
+        for (Result result : results) {
+            System.out.println(result);
         }
-        return results;
     }
 }

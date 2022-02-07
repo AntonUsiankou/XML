@@ -1,21 +1,33 @@
+import by.gsu.epamlab.Constants;
 import by.gsu.epamlab.Result;
 import by.gsu.epamlab.ResultHandler;
+import org.xml.sax.SAXException;
 
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import static by.gsu.epamlab.Constants.*;
 
 
 public class Runner {
+
+
     public static void main(String[] args) {
+        SAXParserFactory factory = SAXParserFactory.newInstance();
+        ResultHandler parserResultHandler = new ResultHandler();
         try {
-            ResultHandler parser = new ResultHandler();
-            List<Result> results = parser.load(PATH + FILE_NAME + EXT_XSM);
-            for (Result result : results) {
-                System.out.println(result);
-            }
-        } catch (IllegalStateException e) {
-            System.err.println(e.getMessage());
+            SAXParser parser = factory.newSAXParser();
+            FileInputStream filePath = new FileInputStream(PATH + FILE_NAME + EXT_XSM);
+            parser.parse(filePath, parserResultHandler);
+        } catch (ParserConfigurationException | SAXException | IOException e) {
+            throw new IllegalStateException(e);
         }
+        parserResultHandler.printList();
     }
 }
